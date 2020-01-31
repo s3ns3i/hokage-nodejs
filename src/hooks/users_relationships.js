@@ -4,8 +4,10 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    const roles = context.app.services.roles.Model;
-    context.params.sequelize = { include: [{ model: roles }] };
+    if (context.data && context.data.roles) {
+      const Roles = context.app.services.roles.Model;
+      context.params.sequelize = { include: [{ model: Roles, required: false }] };
+    }
     return context;
   };
 };
