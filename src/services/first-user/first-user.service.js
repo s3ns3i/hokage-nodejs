@@ -1,6 +1,6 @@
 // Initializes the `first-user` service on path `/first-user`
 const { FirstUser } = require('./first-user.class');
-const createModel = require('../../models/first-user.model');
+const createModel = require('../../models/users.model');
 const hooks = require('./first-user.hooks');
 
 module.exports = function (app) {

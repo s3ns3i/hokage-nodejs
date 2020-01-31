@@ -5,11 +5,23 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const firstUser = sequelizeClient.define('first_user', {
-    text: {
+  const firstUser = sequelizeClient.define('first-user', {
+
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    nickname: {
       type: DataTypes.STRING,
       allowNull: false
     }
+
+
   }, {
     hooks: {
       beforeCount(options) {
