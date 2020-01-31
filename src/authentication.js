@@ -9,5 +9,6 @@ module.exports = app => {
   authentication.register('local', new LocalStrategy());
 
   app.use('/authentication', authentication);
+
   app.configure(expressOauth());
 };
