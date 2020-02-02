@@ -1,8 +1,13 @@
 const { Service } = require('feathers-sequelize');
 
 exports.FirstUser = class FirstUser extends Service {
-  create(data, params) {
-    console.log('hello from overriden create method in users');
+  setup(app) {
+    this.app = app;
+  }
+
+  async create(data, params) {
+    const { total } = await this.app.service('first-user').find();
+    if (total) { throw new Error('First user already created!'); }
     const { email, password, nickname, roles } = data;
     const userData = {
       email,
@@ -10,7 +15,6 @@ exports.FirstUser = class FirstUser extends Service {
       nickname,
       roles: roles ? roles : [{ code: 'admin', name: 'Administrator' }]
     };
-    console.log(userData.roles);
     return super.create(userData, params);
   }
 };

@@ -1,6 +1,6 @@
 
 
-const firstUserRelationships = require('../../hooks/first-user_denied');
+const firstUserDenied = require('../../hooks/first-user_denied');
 
 const firstUserTotal = require('../../hooks/first-user_total');
 
@@ -12,11 +12,11 @@ module.exports = {
   before: {
     all: [],
     find: [],
-    get: [firstUserRelationships()],
+    get: [firstUserDenied()],
     create: [hashPassword('password'), userRelationships()],
-    update: [firstUserRelationships()],
-    patch: [firstUserRelationships()],
-    remove: [firstUserRelationships()]
+    update: [firstUserDenied()],
+    patch: [firstUserDenied()],
+    remove: [firstUserDenied()]
   },
 
   after: {
