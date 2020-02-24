@@ -5,17 +5,22 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const roles = sequelizeClient.define('roles', {
-    code: {
-      type: DataTypes.STRING,
+  const transitions = sequelizeClient.define('transitions', {
+    taskId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true
     },
-    name: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true
-    }
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
+    },
   }, {
     hooks: {
       beforeCount(options) {
@@ -25,12 +30,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  roles.associate = function (models) {
+  transitions.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    roles.belongsToMany(models.users, { through: 'users_roles' });
-    roles.belongsToMany(models.projects, { through: 'projects_roles' });
   };
 
-  return roles;
+  return transitions;
 };

@@ -25,7 +25,7 @@ module.exports = function (app) {
   }, {
     hooks: {
       beforeCount(options) {
-        options.raw = true;
+        options.raw = false;
       }
     }
   });
@@ -35,6 +35,7 @@ module.exports = function (app) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     users.belongsToMany(models.roles, { through: 'users_roles' });
+    users.belongsToMany(models.projects, { through: 'projects_users' });
   };
 
   return users;
