@@ -4,13 +4,14 @@ const {
 
 const usersRelationships = require('../../hooks/users_relationships');
 const firstUserDeniedHook = require('../../hooks/first-user_denied');
+const firstUserTotalHook = require('../../hooks/first-user_total');
 
 module.exports = {
   before: {
-    all: [usersRelationships()],
-    find: [firstUserDeniedHook()],
+    all: [],
+    find: [],
     get: [firstUserDeniedHook()],
-    create: [hashPassword('password')],
+    create: [hashPassword('password'), usersRelationships()],
     update: [firstUserDeniedHook()],
     patch: [firstUserDeniedHook()],
     remove: [firstUserDeniedHook()]
@@ -22,7 +23,7 @@ module.exports = {
       // Always must be the last hook
       protect('password')
     ],
-    find: [],
+    find: [firstUserTotalHook()],
     get: [],
     create: [],
     update: [],
