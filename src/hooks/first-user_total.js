@@ -4,7 +4,6 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    console.log(context);
     context.result.data = [];
     return context;
   };

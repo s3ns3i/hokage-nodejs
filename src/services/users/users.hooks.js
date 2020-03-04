@@ -6,15 +6,17 @@ const {
 
 const usersRelationships = require('../../hooks/users_relationships');
 
+const afterAssociations = require('../../hooks/afterAssociations');
+
 module.exports = {
   before: {
-    all: [usersRelationships()],
-    find: [authenticate('jwt')],
-    get: [authenticate('jwt')],
-    create: [hashPassword('password')],
+    all: [],
+    find: [authenticate('jwt'), usersRelationships()],
+    get: [authenticate('jwt'), usersRelationships()],
+    create: [hashPassword('password'), authenticate('jwt')],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [hashPassword('password'), authenticate('jwt')],
-    remove: [authenticate('jwt')]
+    remove: [authenticate('jwt'), usersRelationships()]
   },
 
   after: {
@@ -25,8 +27,8 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
-    update: [],
+    create: [afterAssociations()],
+    update: [afterAssociations()],
     patch: [],
     remove: []
   },
