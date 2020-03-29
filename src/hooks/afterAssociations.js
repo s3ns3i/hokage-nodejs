@@ -5,13 +5,13 @@
 module.exports = (options = {}) => {
   return async context => {
     const createdUser = context.result;
-    const role = context.data.role;
+    const roles = context.data.roles;
     try {
       const rolesToAssign = await context.app.service('role')
-        .find({ query: { id: { $in: role.map(role => role.id) } } });
+        .find({ query: { id: { $in: roles.map(role => role.id) } } });
       let user = await context.app.service('user').get(createdUser.id);
       await user.addRoles(rolesToAssign.data);
-      context.dispatch.role = role;
+      context.dispatch.roles = roles;
 
       return context;
     } catch (error) { throw new Error(error); }

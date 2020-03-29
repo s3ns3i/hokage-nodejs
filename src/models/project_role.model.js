@@ -28,7 +28,7 @@ module.exports = function (app) {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     project_role.belongsTo(models.project);
     project_role.belongsTo(models.role);
-    project_role.belongsToMany(models.user, { through: models.user_project_role });
+    project_role.belongsToMany(models.user, { through: 'user_project_role' });
     project_role.hasMany(models.user_project_role);
   };
 

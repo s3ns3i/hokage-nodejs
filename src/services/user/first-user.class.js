@@ -7,18 +7,18 @@ exports.FirstUser = class FirstUser extends Service {
   }
 
   async create(data, params) {
-    const { total } = await this.app.service('user').find();
-    if (total) { throw new Error('First user already created!'); }
+    const response = await this.app.service('user').find();
+    if (response.data.length) { throw new Error('First user already created!'); }
 
     const Role = this.app.services.role.Model;
     params.sequelize = { include: [Role] };
     const { email, password, nickname } = data;
-    const role = [{ code: 'admin', name: 'Administrator' }];
+    const roles = [{ name: 'Administrator' }];
     const userData = {
       email,
       password,
       nickname,
-      role,
+      roles,
     };
     return super.create(userData, params);
   }
