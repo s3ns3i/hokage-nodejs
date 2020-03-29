@@ -5,35 +5,28 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const transitions = sequelizeClient.define('transitions', {
-    taskId: {
+  const user_project_role = sequelizeClient.define('user_project_role', {
+    id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
-    },
-    roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
-    },
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    }
   }, {
     hooks: {
       beforeCount(options) {
-        options.raw = true;
+        options.raw = false;
       }
     }
   });
 
   // eslint-disable-next-line no-unused-vars
-  transitions.associate = function (models) {
+  user_project_role.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    user_project_role.belongsTo(models.user);
+    user_project_role.belongsTo(models.project_role);
   };
 
-  return transitions;
+  return user_project_role;
 };

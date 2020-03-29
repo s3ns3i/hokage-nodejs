@@ -2,27 +2,18 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const createUsersProjectsRolesModel = require('./user_project_role.model');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define('users', {
-
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    password: {
-      type: DataTypes.STRING,
+  const project_role = sequelizeClient.define('project_role', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
-    nickname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    }
-
-
+    order: DataTypes.INTEGER,
   }, {
     hooks: {
       beforeCount(options) {
@@ -32,12 +23,14 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  users.associate = function (models) {
+  project_role.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    users.belongsToMany(models.roles, { through: 'users_roles' });
-    users.belongsToMany(models.projects, { through: 'projects_users' });
+    project_role.belongsTo(models.project);
+    project_role.belongsTo(models.role);
+    project_role.belongsToMany(models.user, { through: models.user_project_role });
+    project_role.hasMany(models.user_project_role);
   };
 
-  return users;
+  return project_role;
 };

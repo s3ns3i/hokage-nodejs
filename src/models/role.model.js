@@ -2,21 +2,15 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const createProjectsRolesModel = require('./project_role.model');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const tasks = sequelizeClient.define('tasks', {
+  const role = sequelizeClient.define('role', {
     name: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    chapterNo: {
-      type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    translation: {
-      type: DataTypes.TEXT,
-      allowNull: true
+      unique: true
     }
   }, {
     hooks: {
@@ -27,10 +21,13 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  tasks.associate = function (models) {
+  role.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    // role.belongsToMany(models.project, { through: 'project_role' });
+    role.belongsToMany(models.project, { through: models.project_role });
+    role.hasMany(models.project_role);
   };
 
-  return tasks;
+  return role;
 };

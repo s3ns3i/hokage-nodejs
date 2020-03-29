@@ -1,13 +1,13 @@
-const users = require('./users/users.service.js');
-const roles = require('./roles/roles.service.js');
-const projects = require('./projects/projects.service.js');
-const tasks = require('./tasks/tasks.service.js');
-const transitions = require('./transitions/transitions.service.js');
+const user = require('./user/user.service.js');
+const role = require('./role/role.service.js');
+const project = require('./project/project.service.js');
+const task = require('./task/task.service.js');
+const transition = require('./transition/transition.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
-  app.configure(users);
-  app.configure(roles);
-  app.configure(projects);
-  app.configure(tasks);
-  app.configure(transitions);
+  app.configure(user);
+  app.configure(role);
+  app.configure(project);
+  app.configure(task);
+  app.configure(transition);
 };

@@ -1,8 +1,8 @@
-// Initializes the `users` service on path `/users`
-const { Users } = require('./users.class');
+// Initializes the `user` service on path `/user`
+const { User } = require('./user.class');
 const { FirstUser } = require('./first-user.class');
-const createModel = require('../../models/users.model');
-const usersHooks = require('./users.hooks');
+const createModel = require('../../models/user.model');
+const usersHooks = require('./user.hooks');
 const firstUserHooks = require('./first-user.hooks');
 
 module.exports = function (app) {
@@ -12,12 +12,12 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/users', new Users(options, app));
-  app.use('/users/first-user', new FirstUser(options, app));
+  app.use('/user', new User(options, app));
+  app.use('/user/first-user', new FirstUser(options, app));
 
   // Get our initialized service so that we can register hooks
-  const usersService = app.service('users');
-  const firstUserService = app.service('/users/first-user');
+  const usersService = app.service('user');
+  const firstUserService = app.service('/user/first-user');
 
   usersService.hooks(usersHooks);
   firstUserService.hooks(firstUserHooks);

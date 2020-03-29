@@ -2,10 +2,11 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
+const createProjectsRolesModel = require('./project_role.model');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const projects = sequelizeClient.define('projects', {
+  const project = sequelizeClient.define('project', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -28,12 +29,13 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  projects.associate = function (models) {
+  project.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    projects.belongsToMany(models.users, { through: 'projects_users' });
-    projects.belongsToMany(models.roles, { through: 'project_roles' });
+    // project.belongsToMany(models.role, { through: 'project_role' });
+    project.belongsToMany(models.role, { through: 'project_role' });
+    project.hasMany(models.project_role);
   };
 
-  return projects;
+  return project;
 };

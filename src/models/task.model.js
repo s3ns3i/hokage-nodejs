@@ -5,16 +5,18 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const roles = sequelizeClient.define('roles', {
-    code: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
+  const task = sequelizeClient.define('task', {
     name: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    chapterNo: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true
+    },
+    translation: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     hooks: {
@@ -25,12 +27,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  roles.associate = function (models) {
+  task.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    roles.belongsToMany(models.users, { through: 'users_roles' });
-    roles.belongsToMany(models.projects, { through: 'projects_roles' });
   };
 
-  return roles;
+  return task;
 };
