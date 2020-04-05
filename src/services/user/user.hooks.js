@@ -4,19 +4,19 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
-const usersRelationships = require('../../hooks/users_relationships');
+const userRelationships = require('../../hooks/user_relationships');
 
-const afterAssociations = require('../../hooks/afterAssociations');
+const afterUserAssociations = require('../../hooks/after_user_associations');
 
 module.exports = {
   before: {
     all: [],
-    find: [authenticate('jwt'), usersRelationships()],
-    get: [authenticate('jwt'), usersRelationships()],
+    find: [authenticate('jwt'), userRelationships()],
+    get: [authenticate('jwt'), userRelationships()],
     create: [hashPassword('password'), authenticate('jwt')],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [hashPassword('password'), authenticate('jwt')],
-    remove: [authenticate('jwt'), usersRelationships()]
+    remove: [authenticate('jwt'), userRelationships()]
   },
 
   after: {
@@ -27,9 +27,9 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [afterAssociations()],
-    update: [afterAssociations()],
-    patch: [],
+    create: [afterUserAssociations()],
+    update: [afterUserAssociations()],
+    patch: [afterUserAssociations()],
     remove: []
   },
 

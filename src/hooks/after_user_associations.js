@@ -11,6 +11,7 @@ module.exports = (options = {}) => {
         .find({ query: { id: { $in: roles.map(role => role.id) } } });
       let user = await context.app.service('user').get(createdUser.id);
       await user.addRoles(rolesToAssign.data);
+      console.log(context.dispatch);
       context.dispatch.roles = roles;
 
       return context;

@@ -1,23 +1,27 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const taskRelationships = require('../../hooks/task_relationships');
+
+const afterTaskAssociations = require('../../hooks/after_task_associations');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
-    find: [],
-    get: [],
+    all: [authenticate('jwt')],
+    find: [taskRelationships()],
+    get: [taskRelationships()],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [taskRelationships()]
   },
 
   after: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [afterTaskAssociations()],
+    update: [afterTaskAssociations()],
+    patch: [afterTaskAssociations()],
     remove: []
   },
 
