@@ -2,7 +2,6 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
-const createProjectsRolesModel = require('./project_role.model');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -27,7 +26,7 @@ module.exports = function (app) {
     // role.belongsToMany(models.project, { through: 'project_role' });
 
     role.belongsToMany(models.user, { through: 'user_role' });
-    role.belongsToMany(models.project, { through: models.project_role });
+    role.belongsToMany(models.project, { through: 'project_role' });
     role.hasMany(models.project_role);
   };
 
