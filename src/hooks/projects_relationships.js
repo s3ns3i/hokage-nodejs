@@ -7,11 +7,13 @@ module.exports = (options = {}) => {
     const User = context.app.services.user.Model;
     const Role = context.app.services.role.Model;
     const ProjectRole = context.app.services['project-role'].Model;
+    const Task = context.app.services.task.Model;
+
     context.params.sequelize = {
-      raw: false, include: {
+      raw: false, include: [{
         model: ProjectRole,
         include: [{ model: User, through: { attributes: [] } }, Role]
-      }
+      }, Task]
     };
     return context;
   };

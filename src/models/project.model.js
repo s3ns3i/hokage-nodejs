@@ -35,6 +35,7 @@ module.exports = function (app) {
     // project.belongsToMany(models.role, { through: 'project_role' });
     project.belongsToMany(models.role, { through: 'project_role' });
     project.hasMany(models.project_role);
+    project.hasMany(models.task);
   };
 
   return project;

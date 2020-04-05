@@ -30,6 +30,8 @@ module.exports = function (app) {
   task.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    task.belongsTo(models.project);
+    task.belongsTo(models.user);
   };
 
   return task;
