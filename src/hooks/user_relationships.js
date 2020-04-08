@@ -5,7 +5,19 @@
 module.exports = (options = {}) => {
   return async context => {
     const Role = context.app.services.role.Model;
-    context.params.sequelize = { raw: false, include: Role };
+    const UserProjectRole = context.app.services['user-project-role'].Model;
+    const ProjectRole = context.app.services['project-role'].Model;
+    const Project = context.app.services.project.Model;
+
+    context.params.sequelize = {
+      raw: false, include: [Role, {
+        model: UserProjectRole,
+        include: {
+          model: ProjectRole,
+          include: Project
+        }
+      }]
+    };
     return context;
   };
 };
