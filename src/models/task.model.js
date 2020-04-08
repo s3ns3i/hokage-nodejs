@@ -12,10 +12,14 @@ module.exports = function (app) {
     },
     chapterNo: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     translation: {
       type: DataTypes.TEXT,
+      allowNull: true
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {

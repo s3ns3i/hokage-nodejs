@@ -4,12 +4,16 @@ const taskRelationships = require('../../hooks/task_relationships');
 
 const afterTaskAssociations = require('../../hooks/after_task_associations');
 
+const taskBeforeCreate = require('../../hooks/task_before_create');
+
+const taskBeforeAll = require('../../hooks/task_before_all');
+
 module.exports = {
   before: {
-    all: [authenticate('jwt')],
+    all: [authenticate('jwt'), taskBeforeAll()],
     find: [taskRelationships()],
     get: [taskRelationships()],
-    create: [],
+    create: [taskBeforeCreate()],
     update: [],
     patch: [],
     remove: [taskRelationships()]
