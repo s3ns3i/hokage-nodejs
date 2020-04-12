@@ -6,9 +6,7 @@ module.exports = (options = {}) => {
   return async context => {
     const createdTask = context.result;
     try {
-      // context.result.project = createdTask.projectId;
-
-      let task = await context.app.service('task').get(createdTask.id);
+      const task = await context.app.service('task').get(createdTask.id);
       task.projectId = undefined;
       context.dispatch = task;
 
