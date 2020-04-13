@@ -4,9 +4,9 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
-const userRelationships = require('../../hooks/user_relationships');
+const userRelationships = require('../../hooks/user/relationships');
 
-const afterUserAssociations = require('../../hooks/after_user_associations');
+const afterUserAssociations = require('../../hooks/user/after_associations');
 
 module.exports = {
   before: {

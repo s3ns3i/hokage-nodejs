@@ -1,12 +1,12 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const taskRelationships = require('../../hooks/task_relationships');
+const taskRelationships = require('../../hooks/task/relationships');
 
-const afterTaskAssociations = require('../../hooks/after_task_associations');
+const afterTaskAssociations = require('../../hooks/task/after_associations');
 
-const taskBeforeCreate = require('../../hooks/task_before_create');
+const taskBeforeCreate = require('../../hooks/task/before_create');
 
-const taskBeforeAll = require('../../hooks/task_before_all');
+const taskBeforeAll = require('../../hooks/task/before_all');
 
 module.exports = {
   before: {

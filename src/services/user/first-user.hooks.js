@@ -2,9 +2,9 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
-const userRelationships = require('../../hooks/user_relationships');
-const firstUserDeniedHook = require('../../hooks/first-user_denied');
-const firstUserTotalHook = require('../../hooks/first-user_total');
+const userRelationships = require('../../hooks/user/relationships');
+const firstUserDeniedHook = require('../../hooks/user/first-user_denied');
+const firstUserTotalHook = require('../../hooks/user/first-user_total');
 
 module.exports = {
   before: {
