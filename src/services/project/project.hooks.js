@@ -2,7 +2,11 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const projectsRelationships = require('../../hooks/projects_relationships');
 
-const afterCreate = require('../../hooks/project/create_associations');
+const createAssociations = require('../../hooks/project/create_associations');
+
+const removeAssociations = require('../../hooks/project/remove_associations');
+
+const updateAssociations = require('../../hooks/project/update_associations');
 
 module.exports = {
   before: {
@@ -10,8 +14,8 @@ module.exports = {
     find: [projectsRelationships()],
     get: [projectsRelationships()],
     create: [],
-    update: [],
-    patch: [],
+    update: [removeAssociations()],
+    patch: [removeAssociations()],
     remove: []
   },
 
@@ -19,9 +23,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [afterCreate()],
-    update: [],
-    patch: [],
+    create: [createAssociations()],
+    update: [updateAssociations()],
+    patch: [updateAssociations()],
     remove: []
   },
 
