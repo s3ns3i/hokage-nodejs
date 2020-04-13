@@ -24,8 +24,9 @@ function createProjectDao(project) {
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
+    const createdProject = context.result;
+
     const sequelizeClient = context.app.settings.sequelizeClient;
-    const Project = sequelizeClient.models['project'];
     const ProjectRole = sequelizeClient.models['project_role'];
     const UserProjectRole = sequelizeClient.models['user_project_role'];
     const projectDto = { ...context.data };
@@ -33,10 +34,9 @@ module.exports = (options = {}) => {
     const projectRolesDto = [...context.data.project_roles];
 
     try {
-      let project = await Project.create(projectDto);
       const mappedProjectRoles = projectRolesDto.map(projectRole => ({
         order: projectRole.order,
-        projectId: project.id,
+        projectId: createdProject.id,
         roleId: projectRole.role.id
       }));
       const projectRoles = await ProjectRole
@@ -53,7 +53,7 @@ module.exports = (options = {}) => {
         })));
 
       // Map the result for DTO
-      project = await context.app.service('project').get(project.id);
+      const project = await context.app.service('project').get(createdProject.id);
       project.project_roles.forEach(project_role => {
         project_role.users.forEach(user => {
           user.password = undefined;

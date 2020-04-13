@@ -1,27 +1,25 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const { protect } = require('@feathersjs/authentication-local').hooks;
-
 const projectsRelationships = require('../../hooks/projects_relationships');
 
-const projectBeforeCreate = require('../../hooks/project_before_create');
+const afterCreate = require('../../hooks/project/create_associations');
 
 module.exports = {
   before: {
     all: [authenticate('jwt'),],
     find: [projectsRelationships()],
     get: [projectsRelationships()],
-    create: [projectBeforeCreate(), projectsRelationships()],
+    create: [],
     update: [],
     patch: [],
     remove: []
   },
 
   after: {
-    all: [protect('project_roles.users.password')],
+    all: [],
     find: [],
     get: [],
-    create: [],
+    create: [afterCreate()],
     update: [],
     patch: [],
     remove: []
