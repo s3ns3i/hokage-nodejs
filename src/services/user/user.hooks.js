@@ -6,7 +6,7 @@ const {
 
 const userRelationships = require('../../hooks/user/relationships');
 
-const afterUserAssociations = require('../../hooks/user/after_associations');
+const createAssociations = require('../../hooks/user/create_associations');
 
 module.exports = {
   before: {
@@ -27,9 +27,9 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [afterUserAssociations()],
-    update: [afterUserAssociations()],
-    patch: [afterUserAssociations()],
+    create: [createAssociations()],
+    update: [createAssociations()],
+    patch: [createAssociations()],
     remove: []
   },
 
