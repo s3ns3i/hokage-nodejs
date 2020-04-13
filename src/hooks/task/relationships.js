@@ -5,7 +5,8 @@
 module.exports = (options = {}) => {
   return async context => {
     const Project = context.app.services.project.Model;
-    context.params.sequelize = { raw: false, include: Project };
+    const Translation = context.app.services.translation.Model;
+    context.params.sequelize = { raw: false, include: [Project, Translation] };
     return context;
   };
 };
