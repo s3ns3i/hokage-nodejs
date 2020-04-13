@@ -5,6 +5,7 @@ const task = require('./task/task.service.js');
 const transition = require('./transition/transition.service.js');
 const userProjectRole = require('./user_project_role/user_project_role.service.js');
 const projectRole = require('./project_role/project_role.service.js');
+const translation = require('./translation/translation.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(user);
@@ -14,4 +15,5 @@ module.exports = function (app) {
   app.configure(transition);
   app.configure(userProjectRole);
   app.configure(projectRole);
+  app.configure(translation);
 };

@@ -14,10 +14,6 @@ module.exports = function (app) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    translation: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: true
@@ -36,6 +32,7 @@ module.exports = function (app) {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     task.belongsTo(models.project);
     task.belongsTo(models.user);
+    task.hasMany(models.translation);
   };
 
   return task;
