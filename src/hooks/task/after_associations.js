@@ -12,7 +12,6 @@ module.exports = (options = {}) => {
         await task.createTranslation({ translation });
       }
       const task = await context.app.service('task').get(createdTask.id);
-      task.projectId = undefined;
       context.dispatch = task;
 
       return context;
