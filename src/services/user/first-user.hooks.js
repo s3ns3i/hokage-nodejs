@@ -3,18 +3,19 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 
 const userRelationships = require('../../hooks/user/relationships');
-const firstUserDeniedHook = require('../../hooks/user/first-user_denied');
+const denyAccess = require('../../hooks/deny-access');
 const firstUserTotalHook = require('../../hooks/user/first-user_total');
+const afterCreate = require('../../hooks/user/first-user_after_create');
 
 module.exports = {
   before: {
     all: [],
     find: [],
-    get: [firstUserDeniedHook()],
+    get: [denyAccess()],
     create: [hashPassword('password'), userRelationships()],
-    update: [firstUserDeniedHook()],
-    patch: [firstUserDeniedHook()],
-    remove: [firstUserDeniedHook()]
+    update: [denyAccess()],
+    patch: [denyAccess()],
+    remove: [denyAccess()]
   },
 
   after: {
@@ -25,7 +26,7 @@ module.exports = {
     ],
     find: [firstUserTotalHook()],
     get: [],
-    create: [],
+    create: [afterCreate()],
     update: [],
     patch: [],
     remove: []
