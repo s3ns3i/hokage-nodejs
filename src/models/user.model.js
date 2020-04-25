@@ -2,8 +2,6 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
-// const createProjectsRolesModel = require('./project_role.model');
-// const createUsersProjectsRolesModel = require('./user_project_role.model');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -22,8 +20,11 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    removed: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
-
 
   }, {
     hooks: {
@@ -37,12 +38,11 @@ module.exports = function (app) {
   user.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    // models.project_role = createProjectsRolesModel(app);
-    // models.user_project_role = createUsersProjectsRolesModel(app);
     user.belongsToMany(models.role, { through: 'user_role' });
     user.belongsToMany(models.project_role, { through: 'user_project_role' });
     user.hasMany(models.user_project_role);
     user.hasMany(models.task);
+    user.hasMany(models.notification);
   };
 
   return user;
