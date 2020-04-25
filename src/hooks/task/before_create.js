@@ -11,6 +11,8 @@ module.exports = (options = {}) => {
 
     const project = await context.app.service('project').get(task.projectId);
 
+    task.roleId = project.project_roles[0].roleId;
+
     if (project.project_roles[0].users.length === 1) {
       const userId = project.project_roles[0].users[0].id;
       // find task and userId to it

@@ -7,12 +7,13 @@ module.exports = (options = {}) => {
     const createdTask = context.result;
     try {
       const translation = context.data.translation;
-      if (translation) {
-        let task = await context.app.service('task').get(createdTask.id);
+      let task = await context.app.service('task').get(createdTask.id);
+      const latestTranslation = task.translations[task.translations.length - 1];
+      if (translation !== latestTranslation) {
         await task.createTranslation({ translation });
       }
-      const task = await context.app.service('task').get(createdTask.id);
-      context.dispatch = task;
+      task = await context.app.service('task').get(createdTask.id);
+      context.result = task;
 
       return context;
     } catch (error) { throw new Error(error); }

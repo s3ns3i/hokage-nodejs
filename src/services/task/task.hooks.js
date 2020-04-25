@@ -2,11 +2,19 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const taskRelationships = require('../../hooks/task/relationships');
 
-const afterTaskAssociations = require('../../hooks/task/after_associations');
+const afterCreateAssociations = require('../../hooks/task/after_create_associations');
+
+const afterUpdateAssociations = require('../../hooks/task/after_update_associations');
 
 const taskBeforeCreate = require('../../hooks/task/before_create');
 
+const beforeUpdate = require('../../hooks/task/before_update');
+
 const taskBeforeAll = require('../../hooks/task/before_all');
+
+const afterCreateNotification = require('../../hooks/task/after_create_notification');
+
+const afterUpdateNotification = require('../../hooks/task/after_update_notification');
 
 module.exports = {
   before: {
@@ -14,8 +22,8 @@ module.exports = {
     find: [taskRelationships()],
     get: [taskRelationships()],
     create: [taskBeforeCreate()],
-    update: [],
-    patch: [],
+    update: [beforeUpdate()],
+    patch: [beforeUpdate()],
     remove: [taskRelationships()]
   },
 
@@ -23,9 +31,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [afterTaskAssociations()],
-    update: [afterTaskAssociations()],
-    patch: [afterTaskAssociations()],
+    create: [afterCreateAssociations(), afterCreateNotification()],
+    update: [afterUpdateAssociations(), afterUpdateNotification()],
+    patch: [afterUpdateAssociations(), afterUpdateNotification()],
     remove: []
   },
 

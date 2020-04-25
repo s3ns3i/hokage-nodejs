@@ -3,7 +3,9 @@
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
-  return async () => {
-    throw new Error('Not usable');
+  return async context => {
+    const task = await context.app.service('task').get(context.id);
+    context.data.previousRoleId = task.roleId;
+    return context;
   };
 };
