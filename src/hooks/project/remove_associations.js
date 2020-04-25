@@ -18,16 +18,13 @@ module.exports = (options = {}) => {
           .find({ where: { projectId: project.id } });
         projectRoleIds = projectRoleIds.data
           .map(projectRole => projectRole.id);
-        console.log(projectRoleIds);
 
         const { in: opIn } = Sequelize.Op;
-        const removedUPR = await UserProjectRole
+        await UserProjectRole
           .destroy({ where: { projectRoleId: { [opIn]: projectRoleIds } } });
-        console.log(removedUPR);
 
-        const removedPR = await ProjectRole
+        await ProjectRole
           .destroy({ where: { projectId: project.id } });
-        console.log(removedPR);
 
         return context;
       } catch (error) { throw new Error(error); }
