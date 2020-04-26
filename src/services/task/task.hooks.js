@@ -2,6 +2,8 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const taskRelationships = require('../../hooks/task/relationships');
 
+const denyAccess = require('../../hooks/deny-access');
+
 const afterCreateAssociations = require('../../hooks/task/after_create_associations');
 
 const afterUpdateAssociations = require('../../hooks/task/after_update_associations');
@@ -24,7 +26,7 @@ module.exports = {
     create: [taskBeforeCreate()],
     update: [beforeUpdate()],
     patch: [beforeUpdate()],
-    remove: [taskRelationships()]
+    remove: [denyAccess()]
   },
 
   after: {

@@ -4,6 +4,8 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
+const denyAccess = require('../../hooks/deny-access');
+
 const userRelationships = require('../../hooks/user/relationships');
 
 const createAssociations = require('../../hooks/user/create_associations');
@@ -16,7 +18,7 @@ module.exports = {
     create: [hashPassword('password'), authenticate('jwt')],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [hashPassword('password'), authenticate('jwt')],
-    remove: [authenticate('jwt'), userRelationships()]
+    remove: [denyAccess()]
   },
 
   after: {

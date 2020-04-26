@@ -2,6 +2,8 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const rolesRelationships = require('../../hooks/roles_relationships');
 
+const denyAccess = require('../../hooks/deny-access');
+
 module.exports = {
   before: {
     all: [authenticate('jwt'), rolesRelationships()],
@@ -10,7 +12,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [denyAccess()]
   },
 
   after: {

@@ -6,6 +6,8 @@ const createAssociations = require('../../hooks/project/create_associations');
 
 const removeAssociations = require('../../hooks/project/remove_associations');
 
+const denyAccess = require('../../hooks/deny-access');
+
 const updateAssociations = require('../../hooks/project/update_associations');
 
 module.exports = {
@@ -16,7 +18,7 @@ module.exports = {
     create: [],
     update: [removeAssociations()],
     patch: [removeAssociations()],
-    remove: []
+    remove: [denyAccess()]
   },
 
   after: {
