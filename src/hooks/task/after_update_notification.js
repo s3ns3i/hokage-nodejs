@@ -7,8 +7,9 @@ module.exports = (options = {}) => {
     // create notification for specific user
     // check if user is assigned to the task
     // if yes, create notification for him
+    const taskDto = context.data;
     const task = context.result;
-    if(task.userId) {
+    if(taskDto.userId) {
       try {
         const user = await context.app.service('user').get(task.userId);
         const role = user.roles.find(role => role.id === task.roleId);
@@ -19,7 +20,7 @@ module.exports = (options = {}) => {
         });
       } catch(error) { throw new Error(error);}
     } else {
-      // create notifications for all user in the project
+      // create notifications for all users in the project
     }
 
     return context;
