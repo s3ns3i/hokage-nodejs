@@ -13,7 +13,11 @@ module.exports = (options = {}) => {
       raw: false, include: [{
         model: ProjectRole,
         include: [{ model: User, through: { attributes: [] } }, Role]
-      }, Task]
+      }, {
+        model: Task,
+        attributes: ['id', 'chapterNo']
+      }
+      ]
     };
     return context;
   };

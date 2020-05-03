@@ -1,6 +1,6 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const projectsRelationships = require('../../hooks/projects_relationships');
+const relationships = require('../../hooks/project/relationships');
 
 const createAssociations = require('../../hooks/project/create_associations');
 
@@ -13,8 +13,8 @@ const updateAssociations = require('../../hooks/project/update_associations');
 module.exports = {
   before: {
     all: [authenticate('jwt'),],
-    find: [projectsRelationships()],
-    get: [projectsRelationships()],
+    find: [relationships()],
+    get: [relationships()],
     create: [],
     update: [removeAssociations()],
     patch: [removeAssociations()],
