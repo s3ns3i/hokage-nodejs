@@ -6,6 +6,9 @@ module.exports = (options = {}) => {
   return async context => {
     const Project = context.app.services.project.Model;
     const Role = context.app.services.role.Model;
+    context.params.query = {
+      $sort: { order: 1 }
+    };
     context.params.sequelize = {
       raw: false, include: [Project, Role]
     };
