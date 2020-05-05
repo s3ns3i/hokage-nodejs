@@ -5,22 +5,21 @@
 module.exports = (options = {}) => {
   return async context => {
     if (context.data.project_roles) {
-
       try {
-        const project = await context.app.service('project').get(context.id);
+        const project = await context.app.service('project').get(context.id, { query: { $select: 'id'}});
 
         let projectRoleIds = await context.app.service('project-role')
           .find({ query: { projectId: project.id } });
         projectRoleIds = projectRoleIds.data
           .map(projectRole => projectRole.id);
-        console.log(projectRoleIds);
 
-        await context.app.service('user-project-role')
-          .remove(null, { query: { projectRoleId: { $in: projectRoleIds } } });
+        if(projectRoleIds.length) {
+          await context.app.service('user-project-role')
+            .remove(null, { query: { projectRoleId: { $in: projectRoleIds } } });
 
-        await context.app.service('project-role')
-          .remove(null, { query: { projectId: project.id } });
-
+          await context.app.service('project-role')
+            .remove(null, { query: { projectId: project.id } });
+        }
         return context;
       } catch (error) { throw new Error(error); }
     }

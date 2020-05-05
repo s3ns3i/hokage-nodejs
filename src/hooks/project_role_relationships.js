@@ -7,6 +7,7 @@ module.exports = (options = {}) => {
     const Project = context.app.services.project.Model;
     const Role = context.app.services.role.Model;
     context.params.query = {
+      ...context.params.query,
       $sort: { order: 1 }
     };
     context.params.sequelize = {
