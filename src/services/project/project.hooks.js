@@ -8,6 +8,8 @@ const removeAssociations = require('../../hooks/project/remove_associations');
 
 const denyAccess = require('../../hooks/deny-access');
 
+const sortProjectRolesByOrder = require('../../hooks/sort_project_roles_by_order');
+
 const updateAssociations = require('../../hooks/project/update_associations');
 
 module.exports = {
@@ -23,8 +25,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [sortProjectRolesByOrder()],
+    get: [sortProjectRolesByOrder()],
     create: [createAssociations()],
     update: [updateAssociations()],
     patch: [updateAssociations()],
