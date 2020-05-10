@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
       const translation = context.data.translation;
       let task = await context.app.service('task').get(createdTask.id);
       const latestTranslation = task.translations[task.translations.length - 1];
-      if (translation !== latestTranslation) {
+      if (translation && translation !== latestTranslation) {
         await task.createTranslation({ translation });
       }
       task = await context.app.service('task').get(createdTask.id);

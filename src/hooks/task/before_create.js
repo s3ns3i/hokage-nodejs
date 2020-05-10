@@ -18,6 +18,9 @@ module.exports = (options = {}) => {
       // find task and userId to it
       task.userId = userId;
     }
+
+    context.params.previousRoleId = null;
+
     return context;
   };
 };

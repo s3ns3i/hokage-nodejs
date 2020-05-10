@@ -5,7 +5,12 @@
 module.exports = (options = {}) => {
   return async context => {
     const task = await context.app.service('task').get(context.id);
-    context.data.previousRoleId = task.roleId;
+    task.roleId
+      ? context.params.previousRoleId = task.roleId
+      : context.params.previousRoleId = null;
+    task.userId
+      ? context.params.previousUserId = task.userId
+      : context.params.previousUserId = null;
     return context;
   };
 };
