@@ -14,9 +14,9 @@ const beforeUpdate = require('../../hooks/task/before_update');
 
 const taskBeforeAll = require('../../hooks/task/before_all');
 
-const afterCreateNotification = require('../../hooks/task/after_create_notification');
+const sendNotifications = require('../../hooks/task/after_create_notification');
 
-const afterUpdateNotification = require('../../hooks/task/after_update_notification');
+const sendEmails = require('../../hooks/task/send_emails');
 
 module.exports = {
   before: {
@@ -33,9 +33,21 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [afterCreateAssociations(), afterCreateNotification()],
-    update: [afterUpdateAssociations(), afterUpdateNotification()],
-    patch: [afterUpdateAssociations(), afterUpdateNotification()],
+    create: [
+      afterCreateAssociations(),
+      sendNotifications(),
+      sendEmails()
+    ],
+    update: [
+      afterUpdateAssociations(),
+      sendNotifications(),
+      sendEmails()
+    ],
+    patch: [
+      afterUpdateAssociations(),
+      sendNotifications(),
+      sendEmails()
+    ],
     remove: []
   },
 

@@ -7,9 +7,7 @@ const sendNotifications = async function(app, task, usersIds, roleId) {
       usersIds.forEach(userId => {
         app.service('user').get(userId)
           .then(user => {
-            console.log('sending notifications');
             const role = user.roles.find(role => role.id === roleId);
-            console.log(userId);
             app.service('notification').create({
               text: `${role.name}: ${project.name} ${task.chapterNo} - ${task.name}`,
               userId
@@ -40,8 +38,10 @@ const removePreviousUserFromLists = function(
   usersEmails
 ) {
   const index = usersIds.findIndex(userId => userId === previousUserId);
-  usersIds.splice(index, 1);
-  usersEmails.splice(index, 1);
+  if(index > -1) {
+    usersIds.splice(index, 1);
+    usersEmails.splice(index, 1);
+  }
 };
 
 const addUsersToEmailList = function(context, usersEmails) {
@@ -64,19 +64,20 @@ const isAssignmentChanged = function(task, previousRoleId, previousUserId) {
   return isRoleChanged(task, previousRoleId) || isUserChanged(task, previousUserId);
 };
 
-const sendNotificationToRestOfTeammates = function(context, task, roleId, previousUserId) {
-  getUserData(
-    context.app,
-    task.projectId,
-    roleId
-  ).then(({ usersIds, usersEmails }) => {
+const sendNotificationToRestOfTeammates = async function(context, task, roleId, previousUserId) {
+  try {
+    const { usersIds, usersEmails } = await getUserData(
+      context.app,
+      task.projectId,
+      roleId
+    );
     if(previousUserId && !task.userId){
       removePreviousUserFromLists(previousUserId, usersIds, usersEmails);
     }
 
     sendNotifications(context.app, task, usersIds, roleId);
     addUsersToEmailList(context, usersEmails);
-  }).catch(error => {throw new Error(error);} );
+  } catch(error) {throw new Error(error);}
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -88,7 +89,6 @@ module.exports = (options = {}) => {
       const task = context.result;
       context.params.usersEmails = [];
       let _roleId = task.roleId ? task.roleId : null;
-      console.log(`_roleId: ${_roleId}`);
 
       if(!_roleId) { // It's needed for queries later
         const result = await context.app.service('task').get(task.id);
@@ -112,7 +112,7 @@ module.exports = (options = {}) => {
 
         return context;
       }
-      sendNotificationToRestOfTeammates(context, task, _roleId, previousUserId);
+      await sendNotificationToRestOfTeammates(context, task, _roleId, previousUserId);
 
       return context;
     } catch(error) { throw new Error(error);}
