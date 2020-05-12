@@ -44,12 +44,27 @@ const removePreviousUserFromLists = function(
   }
 };
 
-const addUsersToEmailList = function(context, usersEmails) {
+const addUsersToEmailList = async function(context, usersEmails) {
   const onlineUsersEmails = context.app.get('usersEmails');
   let offlineUsersEmails = usersEmails
     .filter(usersEmail => !onlineUsersEmails.includes(usersEmail));
 
-  context.params.usersEmails = offlineUsersEmails;
+  const agreedUsersEmails = await fetchAgreedUsersEmails(context.app, offlineUsersEmails);
+
+  context.params.usersEmails = agreedUsersEmails;
+};
+
+const fetchAgreedUsersEmails = async function(app, usersEmails) {
+  try {
+    const result = await app.service('user')
+      .find({ query: { $and: [
+        { email: { $in: usersEmails } },
+        { emailNotifications: true },
+      ] } });
+    return result.data.length ? result.data.map(user => user.email) : [];
+  } catch(error) {
+    throw new Error(error);
+  }
 };
 
 const isRoleChanged = function(task, previousRoleId){
@@ -76,7 +91,7 @@ const sendNotificationToRestOfTeammates = async function(context, task, roleId, 
     }
 
     sendNotifications(context.app, task, usersIds, roleId);
-    addUsersToEmailList(context, usersEmails);
+    await addUsersToEmailList(context, usersEmails);
   } catch(error) {throw new Error(error);}
 };
 
@@ -108,7 +123,7 @@ module.exports = (options = {}) => {
         }
         sendNotifications(context.app, task, [task.userId], _roleId);
         const user = await context.app.service('user').get(task.userId);
-        addUsersToEmailList(context, [user.email]);
+        await addUsersToEmailList(context, [user.email]);
 
         return context;
       }

@@ -21,6 +21,11 @@ module.exports = function (app) {
       allowNull: false,
       unique: true
     },
+    emailNotifications: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
     removed: {
       type: DataTypes.DATE,
       allowNull: true
