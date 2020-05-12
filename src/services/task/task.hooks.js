@@ -14,7 +14,7 @@ const beforeUpdate = require('../../hooks/task/before_update');
 
 const taskBeforeAll = require('../../hooks/task/before_all');
 
-const sendNotifications = require('../../hooks/task/after_create_notification');
+const sendNotifications = require('../../hooks/task/send_notifications');
 
 const sendEmails = require('../../hooks/task/send_emails');
 
