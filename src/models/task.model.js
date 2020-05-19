@@ -33,6 +33,7 @@ module.exports = function (app) {
     task.belongsTo(models.project);
     task.belongsTo(models.user);
     task.hasMany(models.translation);
+    task.hasMany(models.transition);
   };
 
   return task;

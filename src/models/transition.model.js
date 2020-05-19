@@ -6,20 +6,21 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const transition = sequelizeClient.define('transition', {
-    taskId: {
+    fromUserId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
-    userId: {
+    toUserId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
-    roleId: {
+    fromRoleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
+      allowNull: false
+    },
+    toRoleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
   }, {
     hooks: {
@@ -33,6 +34,7 @@ module.exports = function (app) {
   transition.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    transition.belongsTo(models.task);
   };
 
   return transition;

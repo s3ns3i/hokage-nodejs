@@ -19,20 +19,25 @@ const assignedProjects = function(user) {
 };
 
 const compareDates = function(a, b) {
-  return new Date(b.updatedAt).getMilliseconds() - new Date(a.updatedAt).getMilliseconds();
+  return new Date(b).getMilliseconds() - new Date(a).getMilliseconds();
 };
 
 const latestTask = function(user) {
-  // get all projects and find the latest updated task in them
-  const tasks = [];
+  const activityDates = [];
   user.user_project_roles.forEach(userProjectRole => {
-    const sortedTasks = userProjectRole.project_role.project.tasks.sort(compareDates);
-    if(sortedTasks.length) {
-      tasks.push(sortedTasks[0]);
-    }
+    const project = userProjectRole.project_role.project;
+    project.tasks.forEach(task => {
+      const transition = task.transitions
+        .slice().reverse().find(transition =>
+          transition.fromUserId === user.id
+        );
+      if(transition) {
+        activityDates.push(transition.createdAt);
+      }
+    });
   });
-  if(tasks.length) {
-    return tasks.sort(compareDates).updatedAt;
+  if(activityDates.length) {
+    return activityDates.sort(compareDates)[0];
   }
   return null;
 };
@@ -48,7 +53,6 @@ module.exports = (options = {}) => {
       projects: assignedProjects(user),
       latestTask: latestTask(user)
     }));
-    console.log(context.result.data[0].user_project_roles[0].project_role);
     context.dispatch.data = usersDto;
     context.dispatch.total = usersDto.length;
     return context;
