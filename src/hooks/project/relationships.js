@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
         include: [{ model: User, through: { attributes: [] } }, Role]
       }, {
         model: Task,
-        attributes: ['id', 'chapterNo']
+        attributes: ['id', 'chapterNo', 'name', 'updatedAt']
       }
       ]
     };
