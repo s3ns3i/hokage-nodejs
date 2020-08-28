@@ -12,7 +12,7 @@ module.exports = (options = {}) => {
     context.params.sequelize = {
       raw: false, include: [{
         model: ProjectRole,
-        include: [{ model: User, through: { attributes: [] } }, Role]
+        include: [{ model: User, attributes: ['id', 'nickname'], through: { attributes: [] } }, Role]
       }, {
         model: Task,
         attributes: ['id', 'chapterNo', 'name', 'updatedAt']
