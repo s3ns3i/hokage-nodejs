@@ -1,3 +1,4 @@
+require('./polyfills/array_flat');
 const path = require('path');
 const favicon = require('serve-favicon');
 const compress = require('compression');
