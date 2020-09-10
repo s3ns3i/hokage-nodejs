@@ -7,6 +7,9 @@ module.exports = (options = {}) => {
     try {
       await context.app.service('role').create({name: 'Uploader'});
       return context;
-    } catch (error) { throw new Error(error); }
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   };
 };

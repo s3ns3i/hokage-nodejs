@@ -1,26 +1,6 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-function createProjectDao(project) {
-  return {
-    id: project.id,
-    name: project.name,
-    volumesNo: project.volumesNo,
-    roles: project.project_roles.map(projectRole => ({
-      id: projectRole.role.id,
-      order: projectRole.order,
-      name: projectRole.role.name,
-      users: projectRole.users
-        ? projectRole.users.map(user => ({
-          id: user.id,
-          nickname: user.nickname,
-          email: user.email
-        }))
-        : []
-    })),
-  };
-}
-
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
@@ -61,6 +41,9 @@ module.exports = (options = {}) => {
       });
 
       context.result = project;
-    } catch (error) { throw new Error(error); }
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   };
 };

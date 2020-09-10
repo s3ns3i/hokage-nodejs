@@ -9,6 +9,9 @@ module.exports = (options = {}) => {
       context.result = task;
 
       return context;
-    } catch (error) { throw new Error(error); }
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   };
 };

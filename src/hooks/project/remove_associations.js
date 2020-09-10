@@ -21,7 +21,10 @@ module.exports = (options = {}) => {
             .remove(null, { query: { projectId: project.id } });
         }
         return context;
-      } catch (error) { throw new Error(error); }
+      } catch (error) {
+        console.error(error);
+        throw new Error(error);
+      }
     }
     return context;
   };
