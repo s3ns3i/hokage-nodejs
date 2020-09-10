@@ -23,13 +23,16 @@ module.exports = (options = {}) => {
         .bulkCreate(mappedProjectRoles);
       const rolesUsersDto = projectRolesDto
         .map(projectRole => projectRole.users.map(user => ({
+          order: projectRole.order,
           roleId: projectRole.role.id,
           userId: user.id
         }))).flat();
       await UserProjectRole
         .bulkCreate(rolesUsersDto.map(roleUserDto => ({
           userId: roleUserDto.userId,
-          projectRoleId: projectRoles.find(projectRole => projectRole.roleId === roleUserDto.roleId).id
+          projectRoleId: projectRoles.find(projectRole => {
+            return projectRole.roleId === roleUserDto.roleId && projectRole.order === roleUserDto.order;
+          }).id
         })));
 
       // Map the result for DTO
