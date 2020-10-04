@@ -12,13 +12,21 @@ module.exports = function (app) {
     },
     toUserId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     fromRoleId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     toRoleId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    fromOrder: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    toOrder: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

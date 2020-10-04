@@ -6,25 +6,11 @@ module.exports = (options = {}) => {
   return async context => {
     const createdTask = context.result;
     try {
-      const previousRoleId = context.params.previousRoleId;
-      const previousUserId = context.params.previousUserId;
-      if(previousRoleId && previousUserId) {
-        await context.app.service('transition').create({
-          taskId: createdTask.id,
-          fromUserId: previousUserId,
-          toUserId: createdTask.userId,
-          fromRoleId: previousRoleId,
-          toRoleId: createdTask.roleId
-        });
-      }
+      // there are only two ways - either translation is saved, or task is passed
+      await saveTransitionIfTaskIsPassed(context);
+      await saveTranslation(context);
 
-      const translation = context.data.translation;
-      let task = await context.app.service('task').get(createdTask.id);
-      const latestTranslation = task.translations[task.translations.length - 1];
-      if (translation && translation !== latestTranslation) {
-        await task.createTranslation({ translation });
-      }
-      task = await context.app.service('task').get(createdTask.id);
+      const task = await context.app.service('task').get(createdTask.id);
       context.result = task;
 
       return context;
@@ -34,3 +20,36 @@ module.exports = (options = {}) => {
     }
   };
 };
+
+async function saveTransitionIfTaskIsPassed(context) {
+  const createdTask = context.result;
+  const previousRoleId = context.params.previousRoleId;
+  const previousUserId = context.params.previousUserId;
+  const previousOrder = context.params.previousOrder;
+
+  if(previousRoleId && previousUserId && previousOrder) {
+    await context.app.service('transition').create({
+      taskId: createdTask.id,
+      fromUserId: previousUserId,
+      toUserId: createdTask.userId,
+      fromRoleId: previousRoleId,
+      toRoleId: createdTask.roleId,
+      fromOrder: previousOrder,
+      toOrder: createdTask.projectRoleOrder,
+    });
+  }
+}
+
+async function saveTranslation(context) {
+  const translation = context.data.translation;
+  if(translation) {
+    const createdTask = context.result;
+    const task = await context.app.service('task').get(createdTask.id);
+    const latestTranslation = task.translations[
+      task.translations.length - 1
+    ];
+    if (translation && translation !== latestTranslation) {
+      await task.createTranslation({ translation });
+    }
+  }
+}

@@ -17,6 +17,11 @@ module.exports = function (app) {
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    projectRoleOrder: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 1
     }
   }, {
     hooks: {
