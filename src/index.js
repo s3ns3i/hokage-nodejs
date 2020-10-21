@@ -5,7 +5,7 @@ const hostname = app.get('host');
 const port = app.get('port');
 
 let server = null;
-if(process.env.NODE_ENV) {
+if(process.env.NODE_ENV === 'production') {
   const https = require('https');
   const fs = require('fs');
   const path = require('path');

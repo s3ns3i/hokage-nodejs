@@ -7,7 +7,9 @@ module.exports = (options = {}) => {
     try {
       validateTaskDto(context);
       isTaskBeingPushedMoreThanOneStep(context);
-      await isTaskBeingClosed(context);
+      if(!context.data.translation) {
+        await isTaskBeingClosed(context);
+      }
 
       const task = await context.app.service('task').get(context.id);
       task.roleId
@@ -26,12 +28,12 @@ module.exports = (options = {}) => {
 };
 
 function validateTaskDto(context) {
-  const {roleId, userId, projectRoleOrder, translation } = context.data;
-  console.log(roleId);
-  console.log(userId);
-  console.log(projectRoleOrder);
-  console.log(translation);
-  if(!(roleId !== undefined && userId !== undefined && projectRoleOrder) && !translation) {
+  const {roleId, userId, projectRoleOrder, projectId, translation } = context.data;
+  if(!(roleId !== undefined &&
+     userId !== undefined &&
+      (projectRoleOrder || (!roleId && !userId && !projectRoleOrder)) &&
+       projectId !== undefined)
+        && !translation) {
     throw new Error('You didn\'t provide correct data when patching a task');
   }
 }

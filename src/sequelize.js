@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 
 module.exports = function (app) {
-  const connectionString = app.get('mysql');
+  const dialect = 'postgres';
+  const connectionString = app.get(dialect);
   const sequelize = new Sequelize(connectionString, {
-    dialect: 'mysql',
+    dialect,
     logging: false,
     define: {
       freezeTableName: true

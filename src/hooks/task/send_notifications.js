@@ -22,13 +22,16 @@ const getUserData = async function(app, projectId, roleId) {
     const project = await app.service('project').get(projectId);
     let usersIds = [];
     let usersEmails = [];
-    const users = project.project_roles
-      .find(projectRole => projectRole.roleId === roleId)
-      .users;
-    usersIds = usersIds.concat(users.map(user => user.id));
-    usersEmails = usersEmails.concat(users.map(user => user.email));
-
-    return {usersIds, usersEmails};
+    const projectRole = project.project_roles
+      .find(projectRole => projectRole.roleId === roleId);
+    if(projectRole) {
+      const users = projectRole.users;
+      usersIds = usersIds.concat(users.map(user => user.id));
+      usersEmails = usersEmails.concat(users.map(user => user.email));
+      return {usersIds, usersEmails};
+    } else {
+      return {usersIds: [], usersEmails: []};
+    }
   } catch(error) { throw new Error(error);}
 };
 

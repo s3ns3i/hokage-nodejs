@@ -28,7 +28,7 @@ module.exports = function (app) {
     },
     toOrder: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
   }, {
     hooks: {
