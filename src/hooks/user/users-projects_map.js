@@ -29,10 +29,10 @@ const latestTask = function(user) {
     project.tasks.forEach(task => {
       const transition = task.transitions
         .slice().reverse().find(transition =>
-          transition.fromUserId === user.id
+          transition.fromU === user.id
         );
       if(transition) {
-        activityDates.push(transition.createdAt);
+        activityDates.push(transition.creat);
       }
     });
   });

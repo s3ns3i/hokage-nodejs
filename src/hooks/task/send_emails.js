@@ -28,7 +28,7 @@ module.exports = (options = {}) => {
     });
 
     console.log('sending emails to:');
-    console.log(usersEmails);
+    // console.log(usersEmails);
     const task = context.result;
     const project = await context.app.service('project').get(task.projectId);
     usersEmails.forEach(async usersEmail => {
