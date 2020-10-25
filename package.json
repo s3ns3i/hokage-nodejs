@@ -30,29 +30,29 @@
     "mocha": "NODE_ENV=test mocha test/ --recursive --exit"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^4.5.1",
-    "@feathersjs/authentication-local": "^4.5.1",
-    "@feathersjs/authentication-oauth": "^4.5.1",
-    "@feathersjs/configuration": "^4.5.1",
-    "@feathersjs/errors": "^4.5.1",
-    "@feathersjs/express": "^4.5.1",
-    "@feathersjs/feathers": "^4.5.1",
-    "@feathersjs/socketio": "^4.5.1",
-    "@feathersjs/transport-commons": "^4.5.1",
+    "@feathersjs/authentication": "^4.5.9",
+    "@feathersjs/authentication-local": "^4.5.9",
+    "@feathersjs/authentication-oauth": "^4.5.9",
+    "@feathersjs/configuration": "^4.5.9",
+    "@feathersjs/errors": "^4.5.9",
+    "@feathersjs/express": "^4.5.9",
+    "@feathersjs/feathers": "^4.5.9",
+    "@feathersjs/socketio": "^4.5.9",
+    "@feathersjs/transport-commons": "^4.5.9",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "feathers-sequelize": "^6.1.0",
-    "helmet": "^3.21.2",
-    "nodemailer": "^6.4.6",
-    "pg": "^7.17.1",
-    "sequelize": "^5.21.3",
+    "feathers-sequelize": "^6.2.0",
+    "helmet": "^3.23.3",
+    "nodemailer": "^6.4.14",
+    "pg": "^7.18.2",
+    "sequelize": "^5.22.3",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.2.1"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "axios": "^0.19.2",
     "eslint": "^6.8.0",
-    "mocha": "^6.2.2",
+    "mocha": "^6.2.3",
     "nodemon": "^1.19.4"
   }
 }
